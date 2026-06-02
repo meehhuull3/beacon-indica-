@@ -30,6 +30,9 @@ try {
   copyDirSync(src, dest);
   console.log('Successfully copied all files to:', dest);
 
+  console.log('Generating Netlify _redirects file dynamically...');
+  fs.writeFileSync(path.join(dest, '_redirects'), '/*    /index.html   200\n');
+
   console.log('Compressing deployment folder into Netlify-ready ZIP file at:', zipPath);
   if (fs.existsSync(zipPath)) {
     fs.unlinkSync(zipPath);
