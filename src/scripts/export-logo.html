@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Logo Export</title>
+  <style>
+    body { background: #0B2B2E; display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 100vh; gap: 20px; }
+    canvas { display: block; }
+    button { padding: 12px 24px; background: #0B8B8B; color: white; border: none; border-radius: 8px; cursor: pointer; font-size: 16px; margin: 5px; }
+  </style>
+</head>
+<body>
+  <canvas id="canvas" width="800" height="800"></canvas>
+  <div>
+    <button onclick="downloadPNG()">Download PNG</button>
+    <button onclick="downloadJPEG()">Download JPEG</button>
+  </div>
+  <script>
+    const canvas = document.getElementById('canvas');
+    const ctx = canvas.getContext('2d');
+
+    // Background
+    ctx.fillStyle = '#0B2B2E';
+    ctx.fillRect(0, 0, 800, 800);
+
+    // Load and draw the logo image
+    const img = new Image();
+    img.crossOrigin = 'anonymous';
+    img.src = '/logo.png';
+    img.onload = () => {
+      const padding = 100;
+      ctx.drawImage(img, padding, padding, 800 - padding * 2, 800 - padding * 2);
+
+      // Add BEACON INDICA text below
+      ctx.fillStyle = '#BFE9E5';
+      ctx.font = 'bold 48px Arial';
+      ctx.textAlign = 'center';
+      ctx.letterSpacing = '8px';
+      ctx.fillText('BEACON INDICA', 400, 720);
+    };
+    img.onerror = () => {
+      // If logo.png not found, draw text only version
+      ctx.fillStyle = '#BFE9E5';
+      ctx.font = 'bold 72px Arial';
+      ctx.textAlign = 'center';
+      ctx.fillText('BEACON', 400, 340);
+      ctx.fillText('INDICA', 400, 430);
+      ctx.font = '32px Arial';
+      ctx.fillStyle = '#8AACA8';
+      ctx.fillText('From Ideas to Institutions', 400, 520);
+    };
+
+    function downloadPNG() {
+      const link = document.createElement('a');
+      link.download = 'beacon-indica-logo.png';
+      link.href = canvas.toDataURL('image/png');
+      link.click();
+    }
+
+    function downloadJPEG() {
+      const link = document.createElement('a');
+      link.download = 'beacon-indica-logo.jpg';
+      link.href = canvas.toDataURL('image/jpeg', 1.0);
+      link.click();
+    }
+  </script>
+</body>
+</html>
